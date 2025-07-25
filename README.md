@@ -40,49 +40,15 @@ This project implements a secure file transfer system using Java, featuring clie
 
 ### Database Setup
 
-1.  **Create a PostgreSQL database** (e.g., `file_transfer_db`).
+1.  **Create a PostgreSQL database** ( `filetransferdb`).
 
-2.  **Create a `users` table** in your database:
-
-    ```sql
-    CREATE TABLE users (
-        id SERIAL PRIMARY KEY,
-        username VARCHAR(255) NOT NULL UNIQUE,
-        password_hash VARCHAR(255) NOT NULL
-    );
-    ```
+2.  **Run schema.sql**
 
 3.  **Set environment variables** for database connection:
 
-      * `DB_URL`: Your PostgreSQL JDBC URL (e.g., `jdbc:postgresql://localhost:5432/file_transfer_db`)
+      * `DB_URL`: Your PostgreSQL JDBC URL (e.g., `jdbc:postgresql://localhost:5432/filetransferdb`)
       * `DB_USER`: Your PostgreSQL username
       * `DB_PASSWORD`: Your PostgreSQL password
-
-### Project Dependencies
-
-You'll need the `jbcrypt` and PostgreSQL JDBC driver libraries.
-
-  * **jBCrypt:**
-      * Maven:
-        ```xml
-        <dependency>
-            <groupId>org.mindrot</groupId>
-            <artifactId>jbcrypt</artifactId>
-            <version>0.4</version>
-        </dependency>
-        ```
-      * Download: [jBCrypt-0.4.jar](https://www.google.com/search?q=https://repo1.maven.org/maven2/org/mindrot/jbcrypt/0.4/jbcrypt-0.4.jar)
-  * **PostgreSQL JDBC Driver:**
-      * Maven:
-        ```xml
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.7.3</version> </dependency>
-        ```
-      * Download: [PostgreSQL JDBC Driver](https://jdbc.postgresql.org/download/)
-
-Add these JAR files to your project's classpath. If you're using an IDE like IntelliJ IDEA or Eclipse, you can add them via the project structure/build path settings.
 
 ### Running the Application
 
@@ -136,10 +102,4 @@ The `Client` application presents a login screen. When a user attempts to log in
   * **Timestamp Check (Server):** The `ClientHandler` first checks if the received file's timestamp is within a reasonable timeframe (e.g., less than 5 minutes old) to mitigate replay attacks.
   * **Hash Verification (Server):** After decrypting the file, the `ClientHandler` independently calculates the SHA-256 hash using the **decrypted file bytes**, the **received timestamp**, the **received username**, and the **decrypted AES key**. This computed hash is then compared with the hash received from the client to ensure data integrity.
 
------
 
-## Contributing
-
-Feel free to fork the repository, make improvements, and submit pull requests.
-
------
